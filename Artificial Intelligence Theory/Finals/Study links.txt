@@ -1,0 +1,27 @@
+week 11-12
+PROBABILITY:
+https://www.youtube.com/watch?v=7D_4cXnj2Z0
+https://www.youtube.com/watch?v=bQ9ZX9t3Jok
+https://www.youtube.com/watch?v=W-SMSeTOe9I
+
+BAYESIAN NETWORK:
+https://www.youtube.com/watch?v=J9XIgqeMdzY
+https://www.youtube.com/watch?v=F0L4oQKRrpE
+https://www.youtube.com/watch?v=MqZyv4qiyJ8
+
+WEEK 13,14,15
+CLUSTERING:
+part 1 of clustering is in last link of bayesian network
+part2 : https://www.youtube.com/watch?v=LVhDXI6k3hM
+REGRESSION:
+https://www.youtube.com/watch?v=UY_f6st7ICI
+
+
+NEURAL NETWORK FEED FORWARD (  ONLINE LECTURE)
+
+PART-1 
+https://drive.google.com/file/d/1QmDyBO0I-p3J61oKqvj-8upzt76a0KDg/view?usp=sharing
+
+BACK PROPAGATION NEURAL NETWORK
+PART-2
+https://drive.google.com/file/d/1REyDMXFY541CX1QcBDQltEWvIC78mjKW/view?usp=sharing 
