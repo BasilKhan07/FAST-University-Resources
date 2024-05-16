@@ -1,0 +1,33 @@
+Map(string Zip[], int Salary[])
+{
+	for(int i=0; i<n; i++)
+	{
+		emitintermediate(Zip[i], Salary[i]);
+	}
+}
+
+Reduce(int Zip[n], int Salary[n])
+{
+	int Average[n], Sum[n];
+	for(int j=0; j<n; j++)
+	{
+		Sum[j] += Salary[j];
+		Average[j] = Sum[j] / n;
+	}
+	
+	for(int k=0; k<n; k++)
+	{
+		if(Average[k] < 100000)
+		{
+			emitintermediate("<100000", Zip[k]);
+		}
+		else if(Average[k] < 500000)
+		{
+			emitintermediate(">500000", Zip[k]);
+		}
+		else
+		{
+			emitintermediate(">100000 to <500000", Zip[k]);
+		}
+	}
+}
