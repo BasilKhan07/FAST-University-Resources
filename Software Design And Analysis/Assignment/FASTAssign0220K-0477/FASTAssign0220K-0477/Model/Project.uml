@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_LU-u8FL3Ee24DZcLwty52A" name="Project">
+  <packageImport xmi:type="uml:PackageImport" xmi:id="_LcZlkFL3Ee24DZcLwty52A">
+    <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#_0"/>
+  </packageImport>
+  <packagedElement xmi:type="uml:Class" xmi:id="_QsPHgFL3Ee24DZcLwty52A" name="Client">
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_l4d0sFL3Ee24DZcLwty52A" name="name">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_rEAFcFL3Ee24DZcLwty52A" name="email">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_tM-kIFL3Ee24DZcLwty52A" name="number">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_v8UfQFL3Ee24DZcLwty52A" name="Appointment">
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_yRMr8FL3Ee24DZcLwty52A" name="apt_no">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_0iagoFL3Ee24DZcLwty52A" name="apt_date">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/EcorePrimitiveTypes.library.uml#EDate"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_05Bp0FL3Ee24DZcLwty52A" name="apt_status">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_nB00A1L4Ee24DZcLwty52A" name="notification" type="_ALW5sFL4Ee24DZcLwty52A" association="_nB00AFL4Ee24DZcLwty52A">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_nB1bEFL4Ee24DZcLwty52A"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_nB1bEVL4Ee24DZcLwty52A" value="1"/>
+    </ownedAttribute>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_58x3kFL3Ee24DZcLwty52A" name="cancelApt"/>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_8qvSoFL3Ee24DZcLwty52A" name="addApt"/>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_8_yVkFL3Ee24DZcLwty52A" name="changeApt"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_ALW5sFL4Ee24DZcLwty52A" name="Notification">
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_DH6KYFL4Ee24DZcLwty52A" name="message">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_KWFoUFL4Ee24DZcLwty52A" name="emailText"/>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_NPgFcFL4Ee24DZcLwty52A" name="smsText"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_QpbOoFL4Ee24DZcLwty52A" name="service_provider">
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_Sp6fsFL4Ee24DZcLwty52A" name="name">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_TDgrcFL4Ee24DZcLwty52A" name="type">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_aONXkFL4Ee24DZcLwty52A" memberEnd="_aOcBEFL4Ee24DZcLwty52A _aOcoIFL4Ee24DZcLwty52A">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_aOV6cFL4Ee24DZcLwty52A" source="org.eclipse.papyrus">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_aOV6cVL4Ee24DZcLwty52A" key="nature" value="UML_Nature"/>
+    </eAnnotations>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_aOcoIFL4Ee24DZcLwty52A" name="client" type="_QsPHgFL3Ee24DZcLwty52A" association="_aONXkFL4Ee24DZcLwty52A"/>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_aOcBEFL4Ee24DZcLwty52A" name="appointment" type="_v8UfQFL3Ee24DZcLwty52A" association="_aONXkFL4Ee24DZcLwty52A">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_aOcBEVL4Ee24DZcLwty52A"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_jzJ4kFL4Ee24DZcLwty52A" value="*"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_nB00AFL4Ee24DZcLwty52A" memberEnd="_nB00A1L4Ee24DZcLwty52A _nB1bElL4Ee24DZcLwty52A">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_nB00AVL4Ee24DZcLwty52A" source="org.eclipse.papyrus">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_nB00AlL4Ee24DZcLwty52A" key="nature" value="UML_Nature"/>
+    </eAnnotations>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_nB1bElL4Ee24DZcLwty52A" name="appointment" type="_v8UfQFL3Ee24DZcLwty52A" association="_nB00AFL4Ee24DZcLwty52A"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_r_uRYFL4Ee24DZcLwty52A" memberEnd="_r_u4clL4Ee24DZcLwty52A _r_u4dVL4Ee24DZcLwty52A">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_r_u4cFL4Ee24DZcLwty52A" source="org.eclipse.papyrus">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_r_u4cVL4Ee24DZcLwty52A" key="nature" value="UML_Nature"/>
+    </eAnnotations>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_r_u4dVL4Ee24DZcLwty52A" name="appointment" type="_v8UfQFL3Ee24DZcLwty52A" association="_r_uRYFL4Ee24DZcLwty52A"/>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_r_u4clL4Ee24DZcLwty52A" name="service_provider" type="_QpbOoFL4Ee24DZcLwty52A" aggregation="composite" association="_r_uRYFL4Ee24DZcLwty52A">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_r_u4c1L4Ee24DZcLwty52A"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_r_u4dFL4Ee24DZcLwty52A" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+</uml:Model>
