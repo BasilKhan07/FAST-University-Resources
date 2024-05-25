@@ -1,0 +1,12 @@
+Syllabus for Mid-2
+Ch#03 :
+Trees, Minimum spanning trees, Krushkal’s Algorithm, Prim’s Algorithm, Tree properties, Tree Enumeration, Prufer Sequences, Rooted Trees, 
+Depth-first search tree, Breadth-first search tree.
+Ch#o4:
+Connectivity and Network
+Connectivity measure, k-connected, k-edge connected, Whitney’s Theorem, Connectivity and path, Menger’s Theorem, 2-connected graphs, blocks,
+subdivision, contracting.
+Networking, Augmenting Flow Algorithm, Max-Flow, Min-Cut.
+
+All the theorems and proof which are included in the lectures files and given as homework  and in the marked questions of exercises of the 
+sincluded topics. 
