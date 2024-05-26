@@ -1,0 +1,1764 @@
+INCLUDE Irvine32.inc
+INCLUDE macros.inc
+
+DisplayScore PROTO, name1: PTR BYTE, points:DWORD
+
+.data
+	Score SDWORD 0
+	count DWORD 0
+	NameOfPlayer BYTE 20 DUP(?)
+	play_again BYTE "Do you want to play again?", 0
+	caption BYTE "Quiz game", 0
+	eq1 byte "Q.How many days are there in a nonleapyear?",0
+	ea1 byte "a)365   b)444    c)200",0
+	eq2 byte "Q.How many sides are there in a  isoceles  triangle?",0
+	ea2 byte "a)1   b)2    c)5",0
+	eq3 byte "Who discovered electricity?",0
+	ea3 byte "a)Steve Jobs   b)Thomas Edison   c)Benjamin Franklin",0
+	eq4 byte "Q.Which 2 part of your body continues to grow?",0
+	ea4 byte "a)Nose and Ears   b)Legs and Hands    c)Hairs and teeth",0
+	eq5 byte "Q.Which is  the coldest continent on earth?",0
+	ea5 byte "a)Karachi   b)Antarctica    c)Australia",0
+	eq6 byte "Q.Which is the largest mammal?",0
+	ea6 byte "a)Whale   b)Cat    c)Sparow",0
+	eq7 byte "Q.What do you call a house made of ice?",0
+	ea7 byte "a)PentHouse   b)Igloo    c)TreeHouse",0
+	eq8 byte "Q.Which is the largest country in the world?",0
+	ea8 byte "a)India   b)Pakistan    c)Rusia",0
+	eq9 byte "Q.If you freeze water, what do you get?",0
+	ea9 byte "a)Ice   b)Fire    c)Air",0
+	eq10 byte "Q.What do caterpillars turn into",0
+	ea10 byte "a)Snail   b)Butterfly    c)Tiger",0
+
+	mq1 byte "What is the lifespan of a dragonfly?",0
+	ma1 byte "a)1 day   b)3 days    c)20 years",0
+	mq2 byte "What is the capital of Portugal??",0
+	ma2 byte "a)Kabul    b)Lisbon    c)Jersey",0
+	mq3 byte "Who is the current Prime Minister of Pakistan?",0
+	ma3 byte "a)Gen Bajwa   b)Nawaz Sharif    c)Imran Khan",0
+	mq4 byte "How many hearts does an Octopus Have?",0
+	ma4 byte "a)2   b)3    c)1",0
+	mq5 byte "Where were the first computer animations produced?",0
+	ma5 byte "a)Rutherford Lab   b)TechG labs   c)Google Office",0
+	mq6 byte "When did World War II end?",0
+	ma6 byte "a)1980   b)1945   c)1946",0
+	mq7 byte "The Taj Mahal was constructed as a tomb of the wife of which Mughal Emperor?",0
+	ma7 byte "a)Akbar   b)Aurangzeb   c)Shahjehan",0
+	mq8 byte "Who is the first female Prime Minister of Australia?",0
+	ma8 byte "a)Jullia Gilliard   b)Benazir  c)Jessy Malcolms",0
+	mq9 byte "Which country gifted the famous Statue of Liberty?",0
+	ma9 byte "a)Germany   b)France  c)Canada",0
+	mq10 byte "Elon Musk is the CEO of which famous brand?",0
+	ma10 byte "a)Tesla   b)Facebook  c)Google",0
+
+	hq1 byte "Which gas is formed when a hydrogen bomb is detonated?",0
+	ha1 byte "a)Oxygen   b)Hydrogen  c)Helium",0
+	hq2 byte "Which fruit will you find at the top of the trophy of the Men’s Wimbledon?",0
+	ha2 byte "a)Mango   b)Apple  c)PineApple",0
+	hq3 byte "Which superhero has kryptonite as his only weakness?",0
+	ha3 byte "a)Superman   b)Batman  c)Hulk",0
+	hq4 byte "How many notes are there in a musical scale?",0
+	ha4 byte "a)7   b)5  c)8",0
+	hq5 byte "What is the Olympic sport in which athletes cross the finish line backwards?",0
+	ha5 byte "a)Swimming   b)Rowing  c)Javelin Throw",0
+	hq6 byte "Whereabouts in the body is the pituitary gland located?",0
+	ha6 byte "a)Brain   b)Legs  c)Eyes",0
+	hq7 byte "How many black and white squares are there on a chess board in total?",0
+	ha7 byte "a)56   b)66  c)64",0
+	hq8 byte "Area 51 is located in which US state?",0
+	ha8 byte "a)Arizona   b)Los Angeles  c)Nevada",0
+	hq9 byte "In what year was McDonald's founded?",0
+	ha9 byte "a)1960   b)1955  c)1940",0
+	hq10 byte "What is the currency of Poland?",0
+	ha10 byte "a)Dollars   b)Zloty  c)Riyal",0
+
+
+	arr1 byte 'a','b','c','a','b','a','b','c','a','b'
+	arr2 byte 'a','b','c','b','a','b','c','a','b','a'
+	arr3 byte 'b','c','a','a','b','a','c','c','b','b'
+.code
+main proc
+	mov eax,0
+	mov ebx,0
+	mov ecx,0
+	mov edx,0
+	mov al,4
+	call settextcolor
+	call gettextcolor
+	call title1
+	call PlayerName
+	Choice:
+		mov eax,0
+		call Clrscr
+		call title1
+		call Crlf
+		mov edx, Offset NameOfPlayer
+		mWrite "Welcome "
+		call WriteString
+		call Crlf
+		call Crlf
+		call instruction
+		call menu
+		mov eax,0
+		call readint
+		cmp eax, 1
+		jz beginner
+		cmp eax, 2
+		jz intermediate
+		cmp eax, 3
+		jz advanced
+		cmp eax, 1
+		jl invalid_choice
+		jmp option1
+		option1:
+			cmp eax, 3
+			jg invalid_choice
+			jmp endd
+		invalid_choice:
+			mWrite "Enter valid Choice of level."
+			mov eax, 1000
+			call delay
+			jmp choice
+		jmp endd
+		beginner:
+			call clrscr
+			call easyfunc
+			jmp again
+		intermediate:
+			call clrscr
+			call medfunc
+			jmp again
+		advanced:
+			call clrscr
+			call hardfunc
+			jmp again
+		again:
+			call crlf
+			mov ebx, Offset caption
+			mov edx, Offset play_again
+			call MsgBoxAsk
+			;mWrite "Do u want to play Again?"
+			;call crlf
+			;Mwrite "1. Yes   2.  No"
+			;call crlf
+			;mWrite "Choice: "
+			cmp eax, 6
+			je Choice
+			jmp endd
+		endd:
+			call clrscr
+			call title1
+			call crlf
+			mov al,9
+			call writechar
+			call writechar
+			call writechar	
+			mWrite "Thank You."
+			call crlf
+exit 
+main ENDP
+
+	title1 proc
+		mov al,9
+		call writechar
+		call writechar
+		call writechar	
+		mwrite"QUIZ GAME"
+		call crlf
+		call crlf
+		call crlf
+		ret
+	title1 endp
+
+	PlayerName PROC
+		mov ecx, 20
+		mov edx, Offset NameOfPlayer 
+		mWrite "Enter Your Name: "
+		call ReadString
+		ret
+	PlayerName ENDP
+
+	instruction PROC
+		mwrite "INSTRUCTIONS TO FOLLOW: "
+		call crlf
+		mwrite"i) For every correct answer,You will get 2 marks"
+		call crlf
+		mwrite"ii) For every wrong answer,2 mark will be deducted"
+		call crlf
+		mwrite"iii) If you give 3 wrong answers, Quiz will end."
+		call crlf
+		call Crlf
+		ret
+	instruction endp
+
+
+	menu PROC
+		mwrite"Select difficulty level"
+		call crlf
+		mwrite"1. Beginner "
+		call crlf
+		mwrite"2. Intermediate"
+		call crlf
+		mwrite"3. Advanced"
+		call crlf
+		call Crlf
+		mWrite "Choice: "
+		ret
+	menu endp
+
+	DisplayScore PROC, name1: PTR BYTE, points:DWORD
+		call Clrscr
+		call title1
+		mov eax, 0
+		mov eax, points
+		mov edx, name1
+		call WriteString
+		mWrite " your Total score is: "
+		call Writeint
+		cmp eax,4
+		jge l1
+		jmp l2
+		l1:
+		call crlf
+		mwrite "Excellent Job"
+		jmp l100
+		l2:
+		call crlf
+		mwrite "You need to improve"
+		l100:
+		ret
+	DisplayScore ENDP
+
+	easyfunc proc
+		call title1
+		mov esi, 0
+		Q1:
+			call Crlf
+			mov edx,offset eq1
+			call writestring
+			call crlf
+			mov edx,offset ea1
+			call writestring
+			call crlf
+			mWrite "Answer: "
+			call readchar
+			call Writechar
+			cmp al, 'a'
+			jge option1
+			jmp invalid_choice1
+			option1:
+				cmp al, 'c'
+				jg invalid_choice1
+				jmp correct_choice1
+			invalid_choice1:
+				call Crlf
+				mWrite "Enter valid option."
+				jmp Q1
+			correct_choice1:
+				cmp al,arr1[0]
+				jz correct1
+				jmp wrong1
+				correct1:
+					call crlf
+					mwrite"Correct answer. Excellent"
+					call Crlf
+					mov ebx, Score
+					add ebx, 2
+					mov Score, ebx
+					call crlf
+				
+					call crlf
+					jmp Q2
+				wrong1:
+					call crlf
+					mwrite "Wrong Option Selected"
+					call Crlf
+					mov ebx, 0
+					mov ebx, Score
+					sub ebx, 2
+					mov Score, ebx
+					inc count
+					cmp count, 3
+					je fail
+					jmp Q2
+
+		Q2:
+			call Crlf
+			mov edx,offset eq2
+			call writestring
+			call crlf
+			mov edx,offset ea2
+			call writestring
+			call crlf
+			mWrite "Answer: "
+			call readchar
+			call Writechar
+			cmp al, 'a'
+			jge option2
+			jmp invalid_choice2
+			option2:
+				cmp al, 'c'
+				jg invalid_choice2
+				jmp correct_choice2
+			invalid_choice2:
+				call Crlf
+				mWrite "Enter valid option."
+				jmp Q2
+			correct_choice2:
+				cmp al,arr1[1]
+				jz correct2
+				jmp wrong2
+				correct2:
+					call Crlf
+					mwrite"Correct answer. Excellent"
+					call crlf
+					mov ebx, Score
+					add ebx, 2
+					mov Score, ebx
+					call crlf
+					jmp Q3
+				wrong2:
+					call crlf
+					mwrite "Wrong Option Selected"
+					call Crlf
+					mov ebx, 0
+					mov ebx, Score
+					sub ebx, 2
+					mov Score, ebx
+					inc count
+					cmp count, 3
+					je fail
+					jmp Q3
+		Q3:
+			call Crlf
+			mov edx,offset eq3
+			call writestring
+			call crlf
+			mov edx,offset ea3
+			call writestring
+			call crlf
+			mWrite "Answer: "
+			call readchar
+			call writechar
+			cmp al, 'a'
+			jge option3
+			jmp invalid_choice3
+			option3:
+				cmp al, 'c'
+				jg invalid_choice3
+				jmp correct_choice3
+			invalid_choice3:
+				call Crlf
+				mWrite "Enter valid option."
+				jmp Q3
+			correct_choice3:
+				cmp al,arr1[2]
+				jz correct3
+				jmp wrong3
+				correct3:
+					call Crlf
+					mwrite"Correct answer. Excellent"
+					call crlf
+					mov ebx, Score
+					add ebx, 2
+					mov Score, ebx
+					call crlf
+					jmp Q4
+				wrong3:
+					call crlf
+					mwrite "Wrong Option Selected"
+					call Crlf
+					mov ebx, 0
+					mov ebx, Score
+					sub ebx, 2
+					mov Score, ebx
+					inc count
+					cmp count, 3
+					je fail
+					jmp Q4
+
+		Q4:
+			call Crlf
+			mov edx,offset eq4
+			call writestring
+			call crlf
+			mov edx,offset ea4
+			call writestring
+			call crlf
+			mWrite "Answer: "
+			call readchar
+			call writechar
+			cmp al, 'a'
+			jge option4
+			jmp invalid_choice4
+			option4:
+				cmp al, 'c'
+				jg invalid_choice4
+				jmp correct_choice4
+			invalid_choice4:
+				call Crlf
+				mWrite "Enter valid option."
+				jmp Q4
+			correct_choice4:
+				cmp al,arr1[3]
+				jz correct4
+				jmp wrong4
+				correct4:
+					call Crlf
+					mwrite"Correct answer. Excellent"
+					mov ebx, Score
+					add ebx, 2
+					mov Score, ebx
+					call crlf
+					call crlf
+					jmp Q5
+				wrong4:
+					call crlf
+					mwrite "Wrong Option Selected"
+					call Crlf
+					mov ebx, 0
+					mov ebx, Score
+					sub ebx, 2
+					mov Score, ebx
+					inc count
+					cmp count, 3
+					je fail
+					jmp Q5
+
+		Q5:
+			call Crlf
+			mov edx,offset eq5
+			call writestring
+			call crlf
+			mov edx,offset ea5
+			call writestring
+			call crlf
+			mWrite "Answer: "
+			call readchar
+			call writechar
+			call Writechar
+			cmp al, 'a'
+			jge option5
+			jmp invalid_choice5
+			option5:
+				cmp al, 'c'
+				jg invalid_choice5
+				jmp correct_choice5
+			invalid_choice5:
+				call Crlf
+				mWrite "Enter valid option."
+				jmp Q5
+			correct_choice5:
+				cmp al,arr1[4]
+				jz correct5
+				jmp wrong5
+				correct5:
+					call Crlf
+					mwrite"Correct answer. Excellent"
+					call Crlf
+					mov ebx, Score
+					add ebx, 2
+					mov Score, ebx
+					call crlf
+					call crlf
+					jmp Q6
+				wrong5:
+					call crlf
+					mwrite "Wrong Option Selected"
+					call Crlf
+					mov ebx, 0
+					mov ebx, Score
+					sub ebx, 2
+					mov Score, ebx
+					inc count
+					cmp count, 3
+					je fail
+					jmp Q6
+
+		Q6:
+			call Crlf
+			mov edx,offset eq6
+			call writestring
+			call crlf
+			mov edx,offset ea6
+			call writestring
+			call crlf
+			mWrite "Answer: "
+			call readchar
+			call writechar
+			cmp al, 'a'
+			jge option6
+			jmp invalid_choice6
+			option6:
+				cmp al, 'c'
+				jg invalid_choice6
+				jmp correct_choice6
+			invalid_choice6:
+				call Crlf
+				mWrite "Enter valid option."
+				jmp Q6
+			correct_choice6:
+				cmp al,arr1[5]
+				jz correct6
+				jmp wrong6
+				correct6:
+					call Crlf
+					mwrite"Correct answer. Excellent"
+					mov ebx, Score
+					add ebx, 2
+					mov Score, ebx
+					call crlf
+					call crlf
+					jmp Q7
+				wrong6:
+					call crlf
+					mwrite "Wrong Option Selected"
+					call Crlf
+					mov ebx, 0
+					mov ebx, Score
+					sub ebx, 2
+					mov Score, ebx
+					inc count
+					cmp count, 3
+					je fail
+					jmp Q7
+
+		Q7:
+			call Crlf
+			mov edx,offset eq7
+			call writestring
+			call crlf
+			mov edx,offset ea7
+			call writestring
+			call crlf
+			mWrite "Answer: "
+			call readchar
+			call writechar
+			call Writechar
+			cmp al, 'a'
+			jge option7
+			jmp invalid_choice7
+			option7:
+				cmp al, 'c'
+				jg invalid_choice7
+				jmp correct_choice7
+			invalid_choice7:
+				call Crlf
+				mWrite "Enter valid option."
+				jmp Q7
+			correct_choice7:
+				cmp al,arr1[6]
+				jz correct7
+				jmp wrong7
+				correct7:
+					call Crlf
+					mwrite"Correct answer. Excellent"
+					mov ebx, Score
+					add ebx, 2
+					mov Score, ebx
+					call crlf
+					call crlf
+					jmp Q8
+				wrong7:
+					call crlf
+					mwrite "Wrong Option Selected"
+					call Crlf
+					mov ebx, 0
+					mov ebx, Score
+					sub ebx, 2
+					mov Score, ebx
+					inc count
+					cmp count, 3
+					je fail
+					jmp Q8
+
+		Q8:
+			call Crlf
+			mov edx,offset eq8
+			call writestring
+			call crlf
+			mov edx,offset ea8
+			call writestring
+			call crlf
+			mWrite "Answer: "
+			call readchar
+			call writechar
+			cmp al, 'a'
+			jge option8
+			jmp invalid_choice8
+			option8:
+				cmp al, 'c'
+				jg invalid_choice8
+				jmp correct_choice8
+			invalid_choice8:
+				call Crlf
+				mWrite "Enter valid option."
+				jmp Q8
+			correct_choice8:
+				cmp al,arr1[7]
+				jz correct8
+				jmp wrong8
+				correct8:
+					call Crlf
+					mwrite"Correct answer. Excellent"
+					mov ebx, Score
+					add ebx, 2
+					mov Score, ebx
+					call crlf
+					call crlf
+					jmp Q9
+				wrong8:
+					call crlf
+					mwrite "Wrong Option Selected"
+					call Crlf
+					mov ebx, 0
+					mov ebx, Score
+					sub ebx, 2
+					mov Score, ebx
+					inc count
+					cmp count, 3
+					je fail
+					jmp Q9
+
+		Q9:
+			call Crlf
+			mov edx,offset eq9
+			call writestring
+			call crlf
+			mov edx,offset ea9
+			call writestring
+			call crlf
+			mWrite "Answer: "
+			call readchar
+			call writechar
+			cmp al, 'a'
+			jge option9
+			jmp invalid_choice9
+			option9:
+				cmp al, 'c'
+				jg invalid_choice9
+				jmp correct_choice9
+			invalid_choice9:
+				call Crlf
+				mWrite "Enter valid option."
+				jmp Q9
+			correct_choice9:
+				cmp al,arr1[8]
+				jz correct9
+				jmp wrong9
+				correct9:
+					call Crlf
+					mwrite"Correct answer. Excellent"
+					mov ebx, Score
+					add ebx, 2
+					mov Score, ebx
+					call crlf
+					call crlf
+					jmp Q10
+				wrong9:
+					call crlf
+					mwrite "Wrong Option Selected"
+					call Crlf
+					mov ebx, 0
+					mov ebx, Score
+					sub ebx, 2
+					mov Score, ebx
+					inc count
+					cmp count, 3
+					je fail
+					jmp Q10
+
+		Q10:
+			call Crlf
+			mov edx,offset eq10
+			call writestring
+			call crlf
+			mov edx,offset ea10
+			call writestring
+			call crlf
+			mWrite "Answer: "
+			call readchar
+			call writechar
+			cmp al, 'a'
+			jge option10
+			jmp invalid_choice10
+			option10:
+				cmp al, 'c'
+				jg invalid_choice10
+				jmp correct_choice10
+			invalid_choice10:
+				call Crlf
+				mWrite "Enter valid option."
+				jmp Q10
+			correct_choice10:
+				cmp al,arr1[9]
+				jz correct10
+				jmp wrong10
+				correct10:
+					call Crlf
+					mwrite"Correct answer. Excellent"
+					mov ebx, Score
+					add ebx, 2
+					mov Score, ebx
+					call crlf
+					call crlf
+					jmp lexit
+				wrong10:
+					call crlf
+					mwrite "Wrong Option Selected"
+					call Crlf
+					mov ebx, 0
+					mov ebx, Score
+					sub ebx, 2
+					mov Score, ebx
+					inc count
+					cmp count, 3
+					je fail
+					jmp lexit
+
+			lexit:
+				call Crlf
+				mwrite "Quiz Completed."
+				call Crlf
+				jmp L100
+			fail:
+				call Clrscr
+				call title1
+				mWrite "Your limit to give wrong answer of question has reached."
+				call Crlf
+				mov eax, 2000
+				call Delay
+				mWrite "Better Luck next time."
+			L100:
+				call crlf
+				mov eax, Score
+				INVOKE DisplayScore, ADDR NameOFPlayer, eax
+				ret
+	easyfunc endp
+
+;;;;;;;;;;;;
+
+	medfunc PROC
+	call title1
+		mov esi, 0
+		MedQ1:
+			call Crlf
+			mov edx,offset mq1
+			call writestring
+			call crlf
+			mov edx,offset ma1
+			call writestring
+			call crlf
+			mWrite "Answer: "
+			call readchar
+			call writechar
+			cmp al, 'a'
+			jge option1
+			jmp invalid_choice1
+			option1:
+				cmp al, 'c'
+				jg invalid_choice1
+				jmp correct_choice1
+			invalid_choice1:
+				call Crlf
+				mWrite "Enter valid option."
+				jmp MedQ1
+			correct_choice1:
+				cmp al,arr2[0]
+				jz mcorrect1
+				jmp mwrong1
+				mcorrect1:
+					call crlf
+					mwrite"Correct answer. Excellent"
+					call Crlf
+					mov ebx, Score
+					add ebx, 2
+					mov Score, ebx
+					call crlf
+					call crlf
+					jmp MedQ2
+				mwrong1:
+					call crlf
+					mwrite "Wrong Option Selected"
+					call Crlf
+					mov ebx, 0
+					mov ebx, Score
+					sub ebx, 2
+					mov Score, ebx
+					inc count
+					cmp count, 3
+					je mfail
+					jmp MedQ2
+
+		MedQ2:
+			call Crlf
+			mov edx,offset mq2
+			call writestring
+			call crlf
+			mov edx,offset ma2
+			call writestring
+			call crlf
+			mWrite "Answer: "
+			call readchar
+			call writechar
+			cmp al, 'a'
+			jge option2
+			jmp invalid_choice2
+			option2:
+				cmp al, 'c'
+				jg invalid_choice2
+				jmp correct_choice2
+			invalid_choice2:
+				call Crlf
+				mWrite "Enter valid option."
+				jmp MedQ2
+			correct_choice2:
+				cmp al,arr2[1]
+				jz mcorrect2
+				jmp mwrong2
+				mcorrect2:
+					call crlf
+					mwrite"Correct answer. Excellent"
+					call Crlf
+					mov ebx, Score
+					add ebx, 2
+					mov Score, ebx
+					call crlf
+				
+					call crlf
+					jmp MedQ3
+				mwrong2:
+					call crlf
+					mwrite "Wrong Option Selected"
+					call Crlf
+					mov ebx, 0
+					mov ebx, Score
+					sub ebx, 2
+					mov Score, ebx
+					inc count
+					cmp count, 3
+					je mfail
+					jmp MedQ3
+
+		MedQ3:
+			call Crlf
+			mov edx,offset mq3
+			call writestring
+			call crlf
+			mov edx,offset ma3
+			call writestring
+			call crlf
+			mWrite "Answer: "
+			call readchar
+			call writechar
+			cmp al, 'a'
+			jge option3
+			jmp invalid_choice3
+			option3:
+				cmp al, 'c'
+				jg invalid_choice3
+				jmp correct_choice3
+			invalid_choice3:
+				call Crlf
+				mWrite "Enter valid option."
+				jmp MedQ3
+			correct_choice3:
+				cmp al,arr2[2]
+				jz mcorrect3
+				jmp mwrong3
+				mcorrect3:
+					call crlf
+					mwrite"Correct answer. Excellent"
+					call Crlf
+					mov ebx, Score
+					add ebx, 2
+					mov Score, ebx
+					call crlf
+					call crlf
+					jmp MedQ4
+				mwrong3:
+					call crlf
+					mwrite "Wrong Option Selected"
+					call Crlf
+					mov ebx, 0
+					mov ebx, Score
+					sub ebx, 2
+					mov Score, ebx
+					inc count
+					cmp count, 3
+					je mfail
+					jmp MedQ4
+
+		MedQ4:
+			call crlf
+			mov edx,offset mq4
+			call writestring
+			call crlf
+			mov edx,offset ma4
+			call writestring
+			call crlf
+			mWrite "Answer: "
+			call readchar
+			call writechar
+			cmp al, 'a'
+			jge option4
+			jmp invalid_choice4
+			option4:
+				cmp al, 'c'
+				jg invalid_choice4
+				jmp correct_choice4
+			invalid_choice4:
+				call Crlf
+				mWrite "Enter valid option."
+				jmp MedQ4
+			correct_choice4:
+				cmp al,arr2[3]
+				jz mcorrect4
+				jmp mwrong4
+				mcorrect4:
+					call crlf
+					mwrite"Correct answer. Excellent"
+					call Crlf
+					mov ebx, Score
+					add ebx, 2
+					mov Score, ebx
+					call crlf
+					call crlf
+					jmp MedQ5
+				mwrong4:
+					call crlf
+					mwrite "Wrong Option Selected"
+					call Crlf
+					mov ebx, 0
+					mov ebx, Score
+					sub ebx, 2
+					mov Score, ebx
+					inc count
+					cmp count, 3
+					je mfail
+					jmp MedQ5
+
+
+		MedQ5:
+			call Crlf
+			mov edx,offset mq5
+			call writestring
+			call crlf
+			mov edx,offset ma5
+			call writestring
+			call crlf
+			mWrite "Answer: "
+			call readchar
+			call writechar
+			cmp al, 'a'
+			jge option5
+			jmp invalid_choice5
+			option5:
+				cmp al, 'c'
+				jg invalid_choice5
+				jmp correct_choice5
+			invalid_choice5:
+				call Crlf
+				mWrite "Enter valid option."
+				jmp MedQ5
+			correct_choice5:
+				cmp al,arr2[4]
+				jz mcorrect5
+				jmp mwrong5
+				mcorrect5:
+					call crlf
+					mwrite"Correct answer. Excellent"
+					call Crlf
+					mov ebx, Score
+					add ebx, 2
+					mov Score, ebx
+					call crlf
+					call crlf
+					jmp MedQ6
+				mwrong5:
+					call crlf
+					mwrite "Wrong Option Selected"
+					call Crlf
+					mov ebx, 0
+					mov ebx, Score
+					sub ebx, 2
+					mov Score, ebx
+					inc count
+					cmp count, 3
+					je mfail
+					jmp MedQ6
+
+		MedQ6:
+			call Crlf
+			mov edx,offset mq6
+			call writestring
+			call crlf
+			mov edx,offset ma6
+			call writestring
+			call crlf
+			mWrite "Answer: "
+			call readchar
+			call writechar
+			cmp al, 'a'
+			jge option6
+			jmp invalid_choice6
+			option6:
+				cmp al, 'c'
+				jg invalid_choice6
+				jmp correct_choice6
+			invalid_choice6:
+				call Crlf
+				mWrite "Enter valid option."
+				jmp MedQ6
+			correct_choice6:
+				cmp al,arr2[5]
+				jz mcorrect6
+				jmp mwrong6
+				mcorrect6:
+					call crlf
+					mwrite"Correct answer. Excellent"
+					call Crlf
+					mov ebx, Score
+					add ebx, 2
+					mov Score, ebx
+					call crlf
+					call crlf
+					jmp MedQ7
+				mwrong6:
+					call crlf
+					mwrite "Wrong Option Selected"
+					call Crlf
+					mov ebx, 0
+					mov ebx, Score
+					sub ebx, 2
+					mov Score, ebx
+					inc count
+					cmp count, 3
+					je mfail
+					jmp MedQ7
+
+		MedQ7:
+			call Crlf
+			mov edx,offset mq7
+			call writestring
+			call crlf
+			mov edx,offset ma7
+			call writestring
+			call crlf
+			mWrite "Answer: "
+			call readchar
+			call writechar
+			cmp al, 'a'
+			jge option7
+			jmp invalid_choice7
+			option7:
+				cmp al, 'c'
+				jg invalid_choice7
+				jmp correct_choice7
+			invalid_choice7:
+				call Crlf
+				mWrite "Enter valid option."
+				jmp MedQ7
+			correct_choice7:
+				cmp al,arr2[6]
+				jz mcorrect7
+				jmp mwrong7
+				mcorrect7:
+					call crlf
+					mwrite"Correct answer. Excellent"
+					call Crlf
+					mov ebx, Score
+					add ebx, 2
+					mov Score, ebx
+					call crlf
+					call crlf
+					jmp MedQ8
+				mwrong7:
+					call crlf
+					mwrite "Wrong Option Selected"
+					call Crlf
+					mov ebx, 0
+					mov ebx, Score
+					sub ebx, 2
+					mov Score, ebx
+					inc count
+					cmp count, 3
+					je mfail
+					jmp MedQ8
+
+		MedQ8:
+			call Crlf
+			mov edx,offset mq8
+			call writestring
+			call crlf
+			mov edx,offset ma8
+			call writestring
+			call crlf
+			mWrite "Answer: "
+			call readchar
+			call writechar
+			cmp al, 'a'
+			jge option8
+			jmp invalid_choice8
+			option8:
+				cmp al, 'c'
+				jg invalid_choice8
+				jmp correct_choice8
+			invalid_choice8:
+				call Crlf
+				mWrite "Enter valid option."
+				jmp MedQ8
+			correct_choice8:
+				cmp al,arr2[7]
+				jz mcorrect8
+				jmp mwrong8
+				mcorrect8:
+					call crlf
+					mwrite"Correct answer. Excellent"
+					call Crlf
+					mov ebx, Score
+					add ebx, 2
+					mov Score, ebx
+					call crlf
+					call crlf
+					jmp MedQ9
+				mwrong8:
+					call crlf
+					mwrite "Wrong Option Selected"
+					call Crlf
+					mov ebx, 0
+					mov ebx, Score
+					sub ebx, 2
+					mov Score, ebx
+					inc count
+					cmp count, 3
+					je mfail
+					jmp MedQ9
+
+		MedQ9:
+			call Crlf
+			mov edx,offset mq9
+			call writestring
+			call crlf
+			mov edx,offset ma9
+			call writestring
+			call crlf
+			mWrite "Answer: "
+			call readchar
+			call writechar
+			cmp al, 'a'
+			jge option9
+			jmp invalid_choice9
+			option9:
+				cmp al, 'c'
+				jg invalid_choice9
+				jmp correct_choice9
+			invalid_choice9:
+				call Crlf
+				mWrite "Enter valid option."
+				jmp MedQ9
+			correct_choice9:
+				cmp al,arr2[8]
+				jz mcorrect9
+				jmp mwrong9
+				mcorrect9:
+					call crlf
+					mwrite"Correct answer. Excellent"
+					call Crlf
+					mov ebx, Score
+					add ebx, 2
+					mov Score, ebx
+					call crlf
+					call crlf
+					jmp MedQ10
+				mwrong9:
+					call crlf
+					mwrite "Wrong Option Selected"
+					call Crlf
+					mov ebx, 0
+					mov ebx, Score
+					sub ebx, 2
+					mov Score, ebx
+					inc count
+					cmp count, 3
+					je mfail
+					jmp MedQ10
+
+		MedQ10:
+			call Crlf
+			mov edx,offset mq10
+			call writestring
+			call crlf
+			mov edx,offset ma10
+			call writestring
+			call crlf
+			mWrite "Answer: "
+			call readchar
+			call writechar
+			cmp al, 'a'
+			jge option10
+			jmp invalid_choice10
+			option10:
+				cmp al, 'c'
+				jg invalid_choice10
+				jmp correct_choice10
+			invalid_choice10:
+				call Crlf
+				mWrite "Enter valid option."
+				jmp MedQ10
+			correct_choice10:
+				cmp al,arr2[9]
+				jz mcorrect10
+				jmp mwrong10
+				mcorrect10:
+					call crlf
+					mwrite"Correct answer. Excellent"
+					call Crlf
+					mov ebx, Score
+					add ebx, 2
+					mov Score, ebx
+					call crlf
+					call crlf
+					jmp mlexit
+				mwrong10:
+					call crlf
+					mwrite "Wrong Option Selected"
+					call Crlf
+					mov ebx, 0
+					mov ebx, Score
+					sub ebx, 2
+					mov Score, ebx
+					inc count
+					cmp count, 3
+					je mfail
+			mlexit:
+				call Crlf
+				mwrite "Quiz Completed."
+				call Crlf
+				jmp mL100
+			mfail:
+				call Clrscr
+				call title1
+				mWrite "Your limit to give wrong answer of question has reached."
+				call Crlf
+				mov eax, 2000
+				call Delay
+				mWrite "Better Luck next time."
+			mL100:
+			call crlf
+				mov eax, Score
+				INVOKE DisplayScore, ADDR NameOFPlayer, eax
+	ret
+	medfunc ENDP
+	;;;;;;;;;;;;;;;;
+
+	hardfunc PROC
+		call title1
+		mov esi, 0
+		HardQ1:
+		call crlf
+			mov edx,offset hq1
+			call writestring
+			call crlf
+			mov edx,offset ha1
+			call writestring
+			call crlf
+			mWrite "Answer: "
+			call readchar
+			call writechar
+			cmp al, 'a'
+			jge option1
+			jmp invalid_choice1
+			option1:
+				cmp al, 'c'
+				jg invalid_choice1
+				jmp correct_choice1
+			invalid_choice1:
+				call Crlf
+				mWrite "Enter valid option."
+				jmp HardQ1
+			correct_choice1:
+				cmp al,arr3[0]
+				jz hcorrect1
+				jmp hwrong1
+				hcorrect1:
+					call crlf
+					mwrite"Correct answer. Excellent"
+					call Crlf
+					mov ebx, Score
+					add ebx, 2
+					mov Score, ebx
+					call crlf
+					call crlf
+					jmp HardQ2
+				hwrong1:
+					call crlf
+					mwrite "Wrong Option Selected"
+					call Crlf
+					mov ebx, 0
+					mov ebx, Score
+					sub ebx, 2
+					mov Score, ebx
+					inc count
+					cmp count, 3
+					je hfail
+
+		HardQ2:
+			call Crlf
+			mov edx,offset hq2
+			call writestring
+			call crlf
+			mov edx,offset ha2
+			call writestring
+			call crlf
+			mWrite "Answer: "
+			call readchar
+			call writechar
+			cmp al, 'a'
+			jge option2
+			jmp invalid_choice2
+			option2:
+				cmp al, 'c'
+				jg invalid_choice2
+				jmp correct_choice2
+			invalid_choice2:
+				call Crlf
+				mWrite "Enter valid option."
+				jmp HardQ2
+			correct_choice2:
+				cmp al,arr3[1]
+				jz hcorrect2
+				jmp hwrong2
+				hcorrect2:
+					call crlf
+					mwrite"Correct answer. Excellent"
+					call Crlf
+					mov ebx, Score
+					add ebx, 2
+					mov Score, ebx
+					call crlf
+					call crlf
+					jmp HardQ3
+				hwrong2:
+					call crlf
+					mwrite "Wrong Option Selected"
+					call Crlf
+					mov ebx, 0
+					mov ebx, Score
+					sub ebx, 2
+					mov Score, ebx
+					inc count
+					cmp count, 3
+					je hfail
+	
+
+		HardQ3:
+			call Crlf
+			mov edx,offset hq3
+			call writestring
+			call crlf
+			mov edx,offset ha3
+			call writestring
+			call crlf
+			mWrite "Answer: "
+			call readchar
+			call writechar
+			cmp al, 'a'
+			jge option3
+			jmp invalid_choice3
+			option3:
+				cmp al, 'c'
+				jg invalid_choice3
+				jmp correct_choice3
+			invalid_choice3:
+				call Crlf
+				mWrite "Enter valid option."
+				jmp HardQ3
+			correct_choice3:
+				cmp al,arr3[2]
+				jz hcorrect3
+				jmp hwrong3
+				hcorrect3:
+					call crlf
+					mwrite"Correct answer. Excellent"
+					call Crlf
+					mov ebx, Score
+					add ebx, 2
+					mov Score, ebx
+					call crlf
+					call crlf
+					jmp HardQ4
+				hwrong3:
+					call crlf
+					mwrite "Wrong Option Selected"
+					call Crlf
+					mov ebx, 0
+					mov ebx, Score
+					sub ebx, 2
+					mov Score, ebx
+					inc count
+					cmp count, 3
+					je hfail
+		
+		HardQ4:
+			call Crlf
+			mov edx,offset hq4
+			call writestring
+			call crlf
+			mov edx,offset ha4
+			call writestring
+			call crlf
+			mWrite "Answer: "
+			call readchar
+			call writechar
+			cmp al, 'a'
+			jge option4
+			jmp invalid_choice4
+			option4:
+				cmp al, 'c'
+				jg invalid_choice4
+				jmp correct_choice4
+			invalid_choice4:
+				call Crlf
+				mWrite "Enter valid option."
+				jmp HardQ4
+			correct_choice4:
+				cmp al,arr3[3]
+				jz hcorrect4
+				jmp hwrong4
+				hcorrect4:
+					call crlf
+					mwrite"Correct answer. Excellent"
+					call Crlf
+					mov ebx, Score
+					add ebx, 2
+					mov Score, ebx
+					call crlf
+					call crlf
+					jmp HardQ5
+				hwrong4:
+					call crlf
+					mwrite "Wrong Option Selected"
+					call Crlf
+					mov ebx, 0
+					mov ebx, Score
+					sub ebx, 2
+					mov Score, ebx
+					inc count
+					cmp count, 3
+					je hfail
+
+		HardQ5:
+			call Crlf
+			mov edx,offset hq5
+			call writestring
+			call crlf
+			mov edx,offset ha5
+			call writestring
+			call crlf
+			mWrite "Answer: "
+			call readchar
+			call writechar
+			cmp al, 'a'
+			jge option5
+			jmp invalid_choice5
+			option5:
+				cmp al, 'c'
+				jg invalid_choice5
+				jmp correct_choice5
+			invalid_choice5:
+				call Crlf
+				mWrite "Enter valid option."
+				jmp HardQ5
+			correct_choice5:
+				cmp al,arr3[4]
+				jz hcorrect5
+				jmp hwrong5
+				hcorrect5:
+					call crlf
+					mwrite"Correct answer. Excellent"
+					call Crlf
+					mov ebx, Score
+					add ebx, 2
+					mov Score, ebx
+					call crlf
+					call crlf
+					jmp HardQ6
+				hwrong5:
+					call crlf
+					mwrite "Wrong Option Selected"
+					call Crlf
+					mov ebx, 0
+					mov ebx, Score
+					sub ebx, 2
+					mov Score, ebx
+					inc count
+					cmp count, 3
+				je hfail
+			
+
+		HardQ6:
+			call Crlf
+			mov edx,offset hq6
+			call writestring
+			call crlf
+			mov edx,offset ha6
+			call writestring
+			call crlf
+			mWrite "Answer: "
+			call readchar
+			call writechar
+			cmp al, 'a'
+			jge option6
+			jmp invalid_choice6
+			option6:
+				cmp al, 'c'
+				jg invalid_choice6
+				jmp correct_choice6
+			invalid_choice6:
+				call Crlf
+				mWrite "Enter valid option."
+				jmp HardQ6
+			correct_choice6:
+				cmp al,arr3[5]
+				jz hcorrect6
+				jmp hwrong6
+				hcorrect6:
+					call crlf
+					mwrite"Correct answer. Excellent"
+					call Crlf
+					mov ebx, Score
+					add ebx, 2
+					mov Score, ebx
+					call crlf
+					call crlf
+					jmp HardQ7
+				hwrong6:
+					call crlf
+					mwrite "Wrong Option Selected"
+					call Crlf
+					mov ebx, 0
+					mov ebx, Score
+					sub ebx, 2
+					mov Score, ebx
+					inc count
+					cmp count, 3
+					je hfail
+				
+
+		HardQ7:
+			call Crlf
+			mov edx,offset hq7
+			call writestring
+			call crlf
+			mov edx,offset ha7
+			call writestring
+			call crlf
+			mWrite "Answer: "
+			call readchar
+			call writechar
+			cmp al, 'a'
+			jge option7
+			jmp invalid_choice7
+			option7:
+				cmp al, 'c'
+				jg invalid_choice7
+				jmp correct_choice7
+			invalid_choice7:
+				call Crlf
+				mWrite "Enter valid option."
+				jmp HardQ7
+			correct_choice7:
+				cmp al,arr3[6]
+				jz hcorrect7
+				jmp hwrong7
+				hcorrect7:
+					call crlf
+					mwrite"Correct answer. Excellent"
+					call Crlf
+					mov ebx, Score
+					add ebx, 2
+					mov Score, ebx
+					call crlf
+					call crlf
+					jmp HardQ8
+				hwrong7:
+					call crlf
+					mwrite "WWrong Option Selected"
+					call Crlf
+					mov ebx, 0
+					mov ebx, Score
+					sub ebx, 2
+					mov Score, ebx
+					inc count
+					cmp count, 3
+					je hfail
+				
+
+		HardQ8:
+			call Crlf
+			mov edx,offset hq8
+			call writestring
+			call crlf
+			mov edx,offset ha8
+			call writestring
+			call crlf
+			mWrite "Answer: "
+			call readchar
+			call writechar
+			cmp al, 'a'
+			jge option8
+			jmp invalid_choice8
+			option8:
+				cmp al, 'c'
+				jg invalid_choice8
+				jmp correct_choice8
+			invalid_choice8:
+				call Crlf
+				mWrite "Enter valid option."
+				jmp HardQ8
+			correct_choice8:
+				cmp al,arr3[7]
+				jz hcorrect8
+				jmp hwrong8
+				hcorrect8:
+					call crlf
+					mwrite"Correct answer. Excellent"
+					call Crlf
+					mov ebx, Score
+					add ebx, 2
+					mov Score, ebx
+					call crlf
+					call crlf
+					jmp HardQ9
+				hwrong8:
+					call crlf
+					mwrite "Wrong Option Selected"
+					call Crlf
+					mov ebx, 0
+					mov ebx, Score
+					sub ebx, 2
+					mov Score, ebx
+					inc count
+					cmp count, 3
+					je hfail
+		
+
+		HardQ9:
+			call Crlf
+			mov edx,offset hq9
+			call writestring
+			call crlf
+			mov edx,offset ha9
+			call writestring
+			call crlf
+			mWrite "Answer: "
+			call readchar
+			call writechar
+			cmp al, 'a'
+			jge option9
+			jmp invalid_choice9
+			option9:
+				cmp al, 'c'
+				jg invalid_choice9
+				jmp correct_choice9
+			invalid_choice9:
+				call Crlf
+				mWrite "Enter valid option."
+				jmp HardQ9
+			correct_choice9:
+				cmp al,arr3[8]
+				jz hcorrect9
+				jmp hwrong9
+				hcorrect9:
+					call crlf
+					mwrite"Correct answer. Excellent"
+					call Crlf
+					mov ebx, Score
+					add ebx, 2
+					mov Score, ebx
+					call crlf
+					call crlf
+					jmp HardQ10
+				hwrong9:
+					call crlf
+					mwrite "Wrong Option Selected"
+					call Crlf
+					mov ebx, 0
+					mov ebx, Score
+					sub ebx, 2
+					mov Score, ebx
+					inc count
+					cmp count, 3
+					je hfail
+				
+
+		HardQ10:
+			call Crlf
+			mov edx,offset hq10
+			call writestring
+			call crlf
+			mov edx,offset ha10
+			call writestring
+			call crlf
+			mWrite "Answer: "
+			call readchar
+			call writechar
+			cmp al, 'a'
+			jge option10
+			jmp invalid_choice10
+			option10:
+				cmp al, 'c'
+				jg invalid_choice10
+				jmp correct_choice10
+			invalid_choice10:
+				call Crlf
+				mWrite "Enter valid option."
+				jmp HardQ10
+			correct_choice10:
+				cmp al,arr3[9]
+				jz hcorrect10
+				jmp hwrong10
+				hcorrect10:
+					call crlf
+					mwrite"Correct answer. Excellent"
+					call Crlf
+					mov ebx, Score
+					add ebx, 2
+					mov Score, ebx
+					call crlf
+					call crlf
+					jmp hlexit
+				hwrong10:
+					call crlf
+					mwrite "Wrong Option Selected"
+					call Crlf
+					mov ebx, 0
+					mov ebx, Score
+					sub ebx, 2
+					mov Score, ebx
+					inc count
+					cmp count, 3
+					je hfail
+
+			hlexit:
+				call Crlf
+				mwrite "Quiz Completed."
+				call Crlf
+				jmp hL100
+			hfail:
+				call Clrscr
+				call title1
+				mWrite "Your limit to give wrong answer of question has reached."
+				call Crlf
+				mov eax, 2000
+				call Delay
+				mWrite "Better Luck next time."
+			hL100:
+			call crlf
+				mov eax, Score
+				INVOKE DisplayScore, ADDR NameOFPlayer, eax
+				ret
+	hardfunc ENDP
+
+END main
