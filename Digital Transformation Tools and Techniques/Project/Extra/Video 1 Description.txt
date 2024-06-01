@@ -1,0 +1,61 @@
+Please Note
+I have provided the code for filter and data source at the end of description. 
+I skipped 3 filter in the video, now I have attached the code at the end if you are interested you can use below code, and see the working yourself.
+Also Note: In YouTube Description, I cannot write "Greater than" or "Less than" sign, so add the greater than sign where I have written 'Add GreaterThan_sign here'
+Also you can easily give colors to above card, I somehow forgot about them, so do that that yourself.
+
+You guys can send me your version of this app in my mail address, also add some additional functionality
+
+🔍 What You'll Learn:
+
+Building from Scratch: No prior experience needed! We'll start from the ground up, guiding you through the process of setting up Canvas App PowerApps for your ticket projects.
+Intuitive User Interface: Design a user-friendly interface that makes creating, assigning, and tracking tickets a breeze.
+Part 2 Link :
+
+Related Searches
+Service Desk Project in Canvas App - Tutorial
+Ticket Management Project in Canvas App - Tutorial
+Complete Tutorial of Canvas App Project
+Learn to make project in Canvas App PowerApps
+Complete guide to make project in canvas app PowerApps
+Project tutorial for Beginners in canvas app PowerApps
+
+Do support my work by SUBSCRIBING to this Channel.🔔🔔🔔
+_It takes lot of effort and time to make such videos._✅✅✅
+Share it with your friends and colleagues!!💎💎💎
+Comment you feedback as well.📑👇👇👇
+
+Updated Code below ✅
+
+App = OnStart property:-
+ClearCollect(col_TicketTypes,
+    { ID:1, Ticket_Type:"All Tickets", Status:"All"},
+    { ID:1, Ticket_Type:"New Tickets", Status:"New"},
+    { ID:1, Ticket_Type:"Tickets in Progress", Status:"In Progress"},
+    { ID:1, Ticket_Type:"Tickets on Hold", Status: "On Hold"},
+    { ID:1, Ticket_Type:"Tickets Closed", Status: "Closed"},
+    { ID:1, Ticket_Type:"Tickets older than 3 days", Status: "Other" },
+    { ID:1, Ticket_Type:"Tickets opened today", Status: "Opened Today" },
+    { ID:1, Ticket_Type:"Tickets closed today", Status: "Closed Today" }
+);
+ClearCollect(col_Tickets,
+    {ID:1, Department:"IT",Assigned_To: "",Comment:"", Subject:"Wifi not working", Description: "Wifi Issue, resolve as soon as possible", Status: "In Progress", Priority: "High", Date_Created: DateValue("08/23/2023"), Date_Closed:DateValue(Blank()), Owner: "Mark"},
+    {ID:2, Department:"IT",Assigned_To: "",Comment:"", Subject:"Download Power BI software", Description: "Unable to download Power BI software from IT store", Status: "New", Priority: "Low", Date_Created: DateValue("08/24/2023"), Date_Closed:DateValue(Blank()), Owner: "Ravi"},
+    {ID:3, Department:"IT",Assigned_To: "",Comment:"", Subject:"Not able to send mails", Description: "The wireless network seems to be down in Building 1. Can't access web, intranet, or email. ", Status: "In Progress", Priority: "Medium", Date_Created: DateValue("08/12/2023"), Date_Closed:DateValue(Blank()), Owner: "Sanju"},
+    {ID:4, Department:"IT",Assigned_To: "",Comment:"", Subject:"Certificate has expired", Description: "How to I fix the expired certificate message that keeps popping up?", Status: "New", Priority: "Low", Date_Created: DateValue("08/20/2023"), Date_Closed:DateValue(Blank()), Owner: "Eva"},
+    {ID:5, Department:"Facilities",Assigned_To: "",Comment:"", Subject:"Stand up desks in marketing", Description: "We'd like to swap out all six desks for standing desks and will need new chairs, too.1", Status: "New", Priority: "High", Date_Created: DateValue("08/25/2023"), Date_Closed:DateValue(Blank()), Owner: "Ivy"},
+    {ID:6, Department:"HR",Assigned_To: "",Comment:"", Subject:"Need assistance in filling ITR", Description: "Need Guidance of HR members in filling ITR", Status: "New", Priority: "Low", Date_Created: DateValue("08/23/2023"), Date_Closed:DateValue(Blank()), Owner: "Larry"}
+);
+Set(varCurrentStatus,"All")
+
+Gallery - Data source (Items) property:
+Switch(varCurrentStatus,
+"All",col_Tickets,
+"In Progress", Filter(col_Tickets, Status = varCurrentStatus),
+"On Hold", Filter(col_Tickets, Status = varCurrentStatus),
+"Closed", Filter(col_Tickets, Status = varCurrentStatus),
+"New", Filter(col_Tickets, Status = varCurrentStatus),
+"Other",Filter(col_Tickets, Abs(DateDiff(Now(),Date_Created)) 'Add GreaterThan_sign here'= 3),
+"Opened Today",Filter(col_Tickets, Abs(DateDiff(Now(),Date_Created)) = 0),
+"Closed Today",Filter(col_Tickets, Abs(DateDiff(Now(),Date_Closed)) = 0)
+)

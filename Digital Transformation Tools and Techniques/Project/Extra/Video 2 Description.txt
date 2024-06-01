@@ -1,0 +1,100 @@
+"🎥 Welcome to Part 2 of in-depth tutorial on Ticket Management Project using Canvas App PowerApps! 🚀"
+
+Please Note
+1. Watch Part 1 first, link:   
+
+ • Complete Tutorial of Ticket Managemen...    (Most of the functionality are covered in Part 1, In Part 2 I have fixed some minor bugs and also Changed Database from Collection to SharePoint)
+2. All Codes are provided below, you can copy paste then but you need to change the Names of Controls based on the Controls that you have in your screen.
+3. In YouTube Description, I cannot write "Greater than" or "Less than" sign, so add the greater than sign where I have written 'Add GreaterThan_sign here'
+
+🔍 What You'll Learn:
+
+Building from Scratch: No prior experience needed! We'll start from the ground up, guiding you through the process of setting up Canvas App PowerApps for your ticket projects.
+Intuitive User Interface: Design a user-friendly interface that makes creating, assigning, and tracking tickets a breeze.
+Create as a SharePoint Data source : You will learn how to make list in SharePoint with different data types and finally how you can retrieve data from SharePoint list to Canvas App and Save data from Canvas App to SharePoint list.
+Sending Mails: You will learn to send mails from Canvas app using Office365Outllok connector.
+
+
+Related Searches
+Service Desk Project in Canvas App - Tutorial
+Ticket Management Project in Canvas App - Tutorial
+Complete Tutorial of Canvas App Project
+Learn to make project in Canvas App PowerApps
+Complete guide to make project in canvas app PowerApps
+Project tutorial for Beginners in canvas app PowerApps
+How to make projects in Canvas App using SharePoint as a Data source.
+
+Do support my work by SUBSCRIBING to this Channel.🔔🔔🔔
+_It takes lot of effort and time to make such videos._✅✅✅
+Share it with your friends and colleagues!!💎💎💎
+Comment you feedback as well.📑👇👇👇
+
+Updated Code below ✅
+1. If you want to Use Collection as Data Source use below code
+Code is provided in Description section of Part 1, copy from there
+2. If you want to Use SharePoint as Data Source use below code
+
+App --- On Start Property
+Same Code for col_TicketTypes as shown in Part 1
+ClearCollect(col_Ticket,tbl_Tickets);
+Set(varCurrentStatus,"All");
+
+Main Gallery --- Datasource property
+Switch(varCurrentStatus,
+"All",col_Ticket,
+"In Progress", Filter(col_Ticket, Status.Value = varCurrentStatus),
+"On Hold", Filter(col_Ticket, Status.Value = varCurrentStatus),
+"Closed", Filter(col_Ticket, Status.Value = varCurrentStatus),
+"New", Filter(col_Ticket, Status.Value = varCurrentStatus),
+"Other",Filter(col_Ticket, Abs(DateDiff(Now(),'Date Created')) 'Add GreaterThan_sign here'= 3),
+"Opened Today",Filter(col_Ticket, Abs(DateDiff(Now(),'Date Created')) = 0),
+"Closed Today",Filter(col_Ticket, Abs(DateDiff(Now(),'Date Closed')) = 0)
+)
+
+Create Task Button --- On Select property
+Patch(tbl_Tickets,Defaults(tbl_Tickets),
+    {
+        Index_ID: If(IsEmpty(tbl_Tickets),1,First(Sort(tbl_Tickets,ID,SortOrder.Descending)).ID+1),
+        Owner: TextInput1.Text,
+        Subject: TextInput1_1.Text,
+        Priority: {Value:Dropdown1.Selected.Value},
+        Description: TextInput1_2.Text,
+        Department: {Value:Dropdown1_1.Selected.Value},
+        'Date Created': Now(),
+        Status: {Value:"New"},
+        Title:"New Record"
+    }
+);
+ClearCollect(col_Ticket,tbl_Tickets);
+Notify("Ticket has been created Successfully!", NotificationType.Success);
+Navigate(Screen1,ScreenTransition.Fade)
+
+Save button ---- On Select property
+If(Dropdown1_5.Selected.Value = "Closed",
+
+Patch(tbl_Tickets,LookUp(tbl_Tickets,Index_ID=varID),
+    {
+        Priority: {Value:Dropdown1_2.Selected.Value},
+        Department:{Value:Dropdown1_3.Selected.Value},
+        Status: {Value:Dropdown1_5.Selected.Value},
+        'Assigned To':Dropdown1_4.Selected.Value,
+        Comment: TextInput1_4.Text,
+        'Date Closed':Now(),
+        Title:"Updated record"
+    }
+),
+Patch(tbl_Tickets,LookUp(tbl_Tickets,Index_ID=varID),
+    {
+        Priority: {Value:Dropdown1_2.Selected.Value},
+        Department:{Value:Dropdown1_3.Selected.Value},
+        Status: {Value:Dropdown1_5.Selected.Value},
+        'Assigned To':Dropdown1_4.Selected.Value,
+        Comment: TextInput1_4.Text,
+        Title:"Updated record"
+    }
+)
+);
+ClearCollect(col_Ticket,tbl_Tickets);
+Notify("Ticket has been updated Successfully!", NotificationType.Success);
+Navigate(Screen1,ScreenTransition.Fade);
+Office365Outlook.SendEmailV2("lastminutescode@gmail.com",Label2_4.Text&"'s Ticket has been Uplated!","Hi Akash, Ticket for " & Label2_4.Text &" has been updated. Now the new priority is "&Dropdown1_2.Selected.Value & ". The Ticket has been Assigned to " & Dropdown1_4.Selected.Value & " Thank You!")
