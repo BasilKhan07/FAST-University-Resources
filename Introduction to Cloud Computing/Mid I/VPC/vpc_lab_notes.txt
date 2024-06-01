@@ -1,0 +1,155 @@
+1.Create vpc CIDR
+ search vpc on search bar
+. visit vpc = default setting next next created!! can't customized
+  created using wizard (vpc and more)
+
+project name= CC1
+
+. customized vpc
+
+project name= CC2
+
+ip 192.168.0.0/16 not 24 (because only one ip will be assigned)
+
+cc2 id copied now moved to subnets
+create subnets -> select vpc id
+
+. Subnet name = CC2-Public1
+zone = US west oregon 2a
+
+ip 192.168.0.0/16
+
+ip 192.168.1.0/24 (256 ips but 5 will be reserved)
+
+. Subnet name = CC2-Private1
+ip 192.168.0.0/16
+ip 192.168.2.0/24
+
+
+. Subnet name = CC2-Public2
+ip 192.168.0.0/16
+ip 192.168.3.0/24
+
+. Subnet name = CC2-Private2
+ip 192.168.0.0/16
+ip 192.168.4.0/24
+
+
+
+Now go to route table
+paste vpc id (not showing)
+Create route table 
+
+Name: CC2-public
+select vpc 
+
+Name: CC2-private
+select vpc 
+ 
+
+Now go to internet gateway (only one internet gateway can be connected to one vpc)
+
+Name tag: CC2-IG
+attached drop down click attach select vpc CC2
+
+
+(Optional)
+Paid service= Nat Gateway
+
+Go to Nat gatewat 
+***Question = NAT gateway create on public side attached on private side (you want your pc to acces internet but don't want outsider to connect to pc)
+subnet = CC2-Public1
+
+elsatic ip (paid service)= worldwide unique ip have to be allocted, is dedicated
+
+
+
+Route table: cc2-public
+ add route
+0.0.0.0/0 
+internetgateway: cc2 ig
+- subnet association
+
+cc2-private 
+ add route
+0.0.0.0/0 
+NATgateway: cc2 ig
+
+
+Subnets -> CC2-Public1 and 2 -> right click edit subnets -> enable auto assign ip
+
+
+Now under Security go to Security groups
+copied vpc cc2 id paste into search
+security group is automatically created with vpc
+edit name = CC2
+
+Secuirty group act like a firewall which ip or port is allowded and which ip is not allowded, outbound and inbound traffic can be customized
+
+EDIT inbound rules
+default will only work with in a network (delete it)
+
+add new rule
+(we have to create to one linux vm and other windows vm,)
+so in "type" select SSH
+"source" My IP= static ip (only that pc can connect but we don't want that becuase want to access from anywhere)
+TYPE = RDP (windows)
+
+
+
+No under Secuirty go to Network ACLs ( firewall for resources)
+name = CC2
+select vpc
+
+Edit inbound rule 
+Rule number= 101
+Rule number= 100
+
+(shortest rule number will be prioritized ACL wil read in ascending order means if in rule no 100 SSh is allowded and 101 not allowded ACL will permit SSH connection)
+
+Merger of two companies we required peering connections (we merge two vpc)
+
+***"MERGING"****
+GO to perring connections
+create 
+Name = cc1
+
+account = My account (no charges) , Another account ( other person/org account)
+region= This region (no charges), Another region (foran charges nhi lagye gein)
+
+
+****
+Question = perring mandotary rule?
+answer = both vpc classes same it will conflict , both vpc classes should be differnt. Wrapper and white listing if vpc has same class ip
+
+Go to VPC
+in vpc cc1 edit Enable resolve host name is enabled automatically but in cc2 you to enable manually ( this step should be done before merging)
+
+now merging is sucessfull it won't work we have to edit route table
+Edit route both vpc cc2 and c1
+c2: 10.0.0.0 Target connection =peering connection
+
+c1: 192.168.0.0/16 Target Connection = peering connection
+
+
+****"END Point"***
+end point is created for private, to access any resource without any internet connection
+
+People didn't use to create end point, the just used NAT and just wanted to use with internet connection and assigned it to private subnets
+Private option is recent
+
+go to end point 
+create end point
+name: cc2
+Service Category:
+private link = to connect aws partnered like credit card, other means you have creted you own service and want to create endpoint
+
+
+
+FLOW LOG (PAID)
+go to vpc select vpc right click and select flow log
+
+name = 
+all
+
+Interface is Lan card
